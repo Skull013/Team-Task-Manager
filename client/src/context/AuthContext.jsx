@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("token");
 
     if (token) {
-      API.get("/auth/me")
+      API.get("/api/auth/me")
         .then((res) => setUser(res.data))
         .catch(() => {
           localStorage.removeItem("token");
@@ -25,16 +25,27 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await API.post("/auth/login", { email, password });
+    const res = await API.post("/api/auth/login", {
+      email,
+      password,
+    });
+
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
+
     return res.data;
   };
 
   const signup = async (name, email, password) => {
-    const res = await API.post("/auth/signup", { name, email, password });
+    const res = await API.post("/api/auth/signup", {
+      name,
+      email,
+      password,
+    });
+
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
+
     return res.data;
   };
 
@@ -44,7 +55,15 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
