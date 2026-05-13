@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("token");
 
     if (token) {
-      API.get("/api/auth/me")
+      API.get("/auth/me")
         .then((res) => setUser(res.data))
         .catch(() => {
           localStorage.removeItem("token");
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await API.post("/api/auth/login", {
+    const res = await API.post("/auth/login", {
       email,
       password,
     });
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async (name, email, password) => {
-    const res = await API.post("/api/auth/signup", {
+    const res = await API.post("/auth/signup", {
       name,
       email,
       password,
